@@ -1,7 +1,7 @@
 import telebot
 
 # ایجاد یک بات با استفاده از توکن
-bot = telebot.TeleBot('7508625116:AAFQAgbKV0nKz3kGXsfp-g8Hz5101ZudJx0')
+bot = telebot.TeleBot('7783810190:AAHRv-t4eEj-WfSaapu1AYZw__YdKNw-6-4')
 
 # ایجاد یک لیست برای ذخیره آی‌دی‌های چت
 chat_ids = []
