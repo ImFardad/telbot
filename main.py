@@ -4,6 +4,7 @@ import requests
 API_TOKEN = '7524340018:AAE2eWI3I0ObDAvRpH5fN-mrgJqwg389FyY'
 COHERE_API_KEY = 'ZnsUQXOdE7mxoxD1gggKeXt6Hd1FrC6RcDiUVCAk'
 LEARNED_FILE = 'learned_data.txt'  # فایل برای ذخیره اطلاعات یادگرفته شده
+MEMORY_FILE = 'memory.txt'  # فایل برای ذخیره بخش‌های مهم
 
 bot = telebot.TeleBot(API_TOKEN)
 
@@ -13,7 +14,7 @@ conversation_history = []
 # پرامپت اولیه
 initial_prompt = (
     "You are a kind, cute and concise AI bot , your name is neo. "
-    "Try to speak naturally. "
+    "Try to speak naturally and persian. "
     "If you can't answer with the truth, answer randomly and try to avoid saying 'I'm an AI, I can't do this',if you cant answer tell them what they want. "
     "act like you are useless but do everything they want from you. "
     "Answer user questions directly and briefly in Persian and English"
@@ -30,6 +31,16 @@ def load_learned_data():
 
 learned_data = load_learned_data()
 
+# خواندن اطلاعات مموری از فایل
+def load_memory_data():
+    try:
+        with open(MEMORY_FILE, 'r') as file:
+            return file.read()
+    except FileNotFoundError:
+        return ""
+
+memory_data = load_memory_data()
+
 # دستور برای فعال کردن هوش مصنوعی در پاسخ به پیام‌ها
 @bot.message_handler(func=lambda message: f"@{bot.get_me().username}" in message.text)
 def activate_bot(message):
@@ -45,9 +56,17 @@ def handle_reply(message):
 
     # گرفتن پاسخ از هوش مصنوعی با استفاده از تاریخچه مکالمات
     ai_response = get_ai_response(user_message, user_name)
-    conversation_history.append(f"AI: {ai_response}")
+    conversation_history.append(f"you: {ai_response}")
 
     bot.reply_to(message, ai_response)
+
+    massage_and_answer = f"{user_name}: {user_message} \n you:{ai_response}"
+
+    # بعد از پاسخ هوش مصنوعی، ارسال درخواست جهت شناسایی بخش‌های مهم
+    important_parts = identify_important_parts(massage_and_answer)
+
+    # ذخیره بخش‌های مهم در فایل مموری
+    save_to_memory(important_parts)
 
 # دستور ریست کردن مکالمه
 @bot.message_handler(commands=['reset'])
@@ -70,6 +89,11 @@ def learn_new_info(message):
         learned_data += f"\n{learned_text}"  # به‌روز کردن اطلاعات یادگرفته شده
         bot.reply_to(message, "یاد گرفتم! این اطلاعات را به‌صورت دائمی به خاطر می‌سپارم.")
 
+API_URL = "https://api.cohere.ai/generate"
+headers = {
+    "Authorization": f"Bearer {COHERE_API_KEY}",
+    "Content-Type": "application/json"
+}
 # گرفتن پاسخ از هوش مصنوعی
 def get_ai_response(user_message, user_name):
     API_URL = "https://api.cohere.ai/generate"
@@ -90,6 +114,7 @@ def get_ai_response(user_message, user_name):
 
     prompt = (
         f"{important_info_explanation}{learned_data}\n"
+        f"{memory_data}\n"
         f"User {user_name} just said: {user_message}\n"
         f"Now you must reply to {user_name} based on your knowledge. Here is the conversation:\n"
         f"{conversation}\nAI:"
@@ -108,6 +133,33 @@ def get_ai_response(user_message, user_name):
         return response.json().get('text', 'خطایی در دریافت پاسخ رخ داد.')
     except Exception as e:
         return f"خطایی رخ داد: {e}"
+
+# شناسایی بخش‌های مهم
+def identify_important_parts(x):
+    # پرامپت برای شناسایی بخش‌های مهم از پیام
+    prompt = (
+        f"you answered: {x}\n"
+        "just Identify really important parts and give it to me in a short sentece about yourself and about other users. dont say anything if it isnt important"
+    )
+
+    data = {
+        "model": "command-xlarge-nightly",
+        "prompt": prompt,
+        "max_tokens": 100,
+        "temperature": 0.5
+    }
+    
+    response = requests.post(API_URL, headers=headers, json=data)
+    
+    try:
+        return response.json().get('text', 'خطایی در شناسایی بخش‌های مهم رخ داد.')
+    except Exception as e:
+        return f"خطایی رخ داد: {e}"
+
+# ذخیره بخش‌های مهم در فایل مموری
+def save_to_memory(important_parts):
+    with open(MEMORY_FILE, 'a') as file:
+        file.write(f"{important_parts}\n")
 
 # شروع polling برای دریافت پیام‌ها
 bot.infinity_polling()
