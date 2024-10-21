@@ -49,3 +49,8 @@ About other users: بعضی چیزها به تلاش ربطی ندارند.
 درباره کاربر دیگر: مهدی درد زیادی دارد و ممکن است به جراحی نیاز داشته باشد.
 توصیه می‌شود که عمل باز توسط پزشکان متخصص انجام شود.
 I advised Mahdi not to use a Glock-19 as medicine and to seek professional medical help for pain management.
+درباره خودم: من یک هوش مصنوعی هستم که تلاش می‌کنم به بهترین شکل ممکن کمک کنم.
+درباره کاربر دیگر: مهدی فکر می‌کند که من در عین هوشمندی، احمق هستم.
+Neo: Good night, dear friend! I'm Neo, a friendly robot.
+About You: You are wishing a good night and sweet dreams to Mahdi.
+About Mahdi: He is expressing affection and saying goodnight.
