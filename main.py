@@ -41,6 +41,41 @@ def load_memory_data():
 
 memory_data = load_memory_data()
 
+# دستور برای نمایش تاریخچه مکالمه‌ها و فایل مموری
+@bot.message_handler(commands=['history'])
+def show_history(message):
+    global conversation_history
+    history_text = "\n".join(conversation_history)  # تاریخچه مکالمه‌ها
+    memory_text = load_memory_data()  # خواندن اطلاعات مموری از فایل
+    response = f"تاریخچه مکالمه‌ها:\n{history_text}\n\nمحتوای فایل مموری:\n{memory_text}"
+    bot.reply_to(message, response)
+
+# دستور برای نمایش اطلاعات یادگرفته شده
+@bot.message_handler(commands=['learned'])
+def show_learned_data(message):
+    global learned_data
+    response = f"اطلاعات یادگرفته شده:\n{learned_data}"
+    bot.reply_to(message, response)
+
+# دستور برای پاک کردن کامل فایل مموری
+@bot.message_handler(commands=['clear_memory'])
+def clear_memory(message):
+    global memory_data
+    memory_data = ""  # پاک کردن متغیر مموری
+    with open(MEMORY_FILE, 'w') as file:
+        file.write("")  # خالی کردن فایل مموری
+    bot.reply_to(message, "فایل مموری به‌طور کامل پاک شد.")
+
+# دستور برای پاک کردن کامل فایل یادگرفته شده‌ها
+@bot.message_handler(commands=['clear_learned'])
+def clear_learned(message):
+    global learned_data
+    learned_data = ""  # پاک کردن متغیر اطلاعات یادگرفته شده
+    with open(LEARNED_FILE, 'w') as file:
+        file.write("")  # خالی کردن فایل یادگرفته شده‌ها
+    bot.reply_to(message, "فایل اطلاعات یادگرفته شده به‌طور کامل پاک شد.")
+
+
 # دستور برای فعال کردن هوش مصنوعی در پاسخ به پیام‌ها
 @bot.message_handler(func=lambda message: f"@{bot.get_me().username}" in message.text)
 def activate_bot(message):
