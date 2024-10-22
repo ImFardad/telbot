@@ -75,6 +75,18 @@ def clear_learned(message):
         file.write("")  # خالی کردن فایل یادگرفته شده‌ها
     bot.reply_to(message, "فایل اطلاعات یادگرفته شده به‌طور کامل پاک شد.")
 
+# دستور برای اضافه کردن اطلاعات جدید به فایل یادگرفته شده‌ها
+@bot.message_handler(commands=['remember'])
+def remember_info(message):
+    global learned_data
+
+    # اضافه کردن متن به فایل و داده‌های یادگرفته شده
+    with open(LEARNED_FILE, 'a') as file:
+        file.write(f"{initial_prompt}\n")
+    
+    learned_data += f"\n{initial_prompt}"  # به‌روز کردن متغیر اطلاعات یادگرفته شده
+    bot.reply_to(message, "اطلاعات مهم به فایل یادگرفته شده‌ها اضافه شد.")
+
 
 # دستور برای فعال کردن هوش مصنوعی در پاسخ به پیام‌ها
 @bot.message_handler(func=lambda message: f"@{bot.get_me().username}" in message.text)
