@@ -46,6 +46,28 @@ memory_data = load_memory_data()
 def activate_bot(message):
     bot.reply_to(message, "سلام، چطور میتونم کمک کنم ؟")
 
+# پاسخ به پیام‌هایی که شامل "نئو" هستند
+@bot.message_handler(func=lambda message: "نئو" in message.text.lower())
+def handle_reply(message):
+    global conversation_history
+    user_message = message.text  # پیام فعلی کاربر
+    user_name = message.from_user.username or message.from_user.first_name  # نام یا نام کاربری فرستنده
+    conversation_history.append(f"{user_name}: {user_message}")
+
+    # گرفتن پاسخ از هوش مصنوعی با استفاده از تاریخچه مکالمات
+    ai_response = get_ai_response(user_message, user_name)
+    conversation_history.append(f"you: {ai_response}")
+
+    bot.reply_to(message, ai_response)
+
+    massage_and_answer = f"{user_name}: {user_message} \n you:{ai_response}"
+
+    # بعد از پاسخ هوش مصنوعی، ارسال درخواست جهت شناسایی بخش‌های مهم
+    important_parts = identify_important_parts(massage_and_answer)
+
+    # ذخیره بخش‌های مهم در فایل مموری
+    save_to_memory(important_parts)
+
 # هندلر برای پاسخ به پیام‌های ریپلای شده
 @bot.message_handler(func=lambda message: message.reply_to_message and message.reply_to_message.from_user.id == bot.get_me().id)
 def handle_reply(message):
