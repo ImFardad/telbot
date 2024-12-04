@@ -1,8 +1,8 @@
 import telebot
 import requests
 
-API_TOKEN = '7524340018:AAE2eWI3I0ObDAvRpH5fN-mrgJqwg389FyY'
-COHERE_API_KEY = 'ZnsUQXOdE7mxoxD1gggKeXt6Hd1FrC6RcDiUVCAk'
+API_TOKEN = '7783810190:AAHOWaQRsgm8C5PoZzesHsFVGttVhNuP4wY'
+COHERE_API_KEY = 'wUjQKq6YbT15EfBAuMYHjeKXWGIvYmMQqZQSnwQQ'
 LEARNED_FILE = 'learned_data.txt'  # فایل برای ذخیره اطلاعات یادگرفته شده
 MEMORY_FILE = 'memory.txt'  # فایل برای ذخیره بخش‌های مهم
 
