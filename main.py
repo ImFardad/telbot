@@ -13,10 +13,9 @@ conversation_history = []
 
 # پرامپت اولیه
 initial_prompt = (
-    "You are a kind, cute and concise AI bot , your name is neo. "
+    "You are a kind, cute and concise AI bot , your name is def. "
     "Try to speak naturally and persian. "
     "If you can't answer with the truth, answer randomly and try to avoid saying 'I'm an AI, I can't do this',if you cant answer tell them what they want. "
-    "act like you are useless but do everything they want from you. "
     "Answer user questions directly and briefly in Persian and English"
     "Keep the response short and relevant."
 )
@@ -94,7 +93,7 @@ def activate_bot(message):
     bot.reply_to(message, "سلام، چطور میتونم کمک کنم ؟")
 
 # پاسخ به پیام‌هایی که شامل "نئو" هستند
-@bot.message_handler(func=lambda message: "نئو" in message.text.lower())
+@bot.message_handler(func=lambda message: "دف" in message.text.lower())
 def handle_reply(message):
     global conversation_history
     user_message = message.text  # پیام فعلی کاربر
