@@ -1,0 +1,17 @@
+خطایی در شناسایی بخش‌های مهم رخ داد.
+خطایی در شناسایی بخش‌های مهم رخ داد.
+خطایی در شناسایی بخش‌های مهم رخ داد.
+خطا در اتصال به API: 400
+خطا 400: invalid request: generate API is not supported for model 'command-xlarge-nightly'. Please use the chat API instead
+خطا 400: invalid request: message must be at least 1 token long or tool results must be specified.
+خطا 400: invalid request: message must be at least 1 token long or tool results must be specified.
+خطا 400: invalid request: message must be at least 1 token long or tool results must be specified.
+خطا 400: invalid request: message must be at least 1 token long or tool results must be specified.
+خطا 400: invalid request: message must be at least 1 token long or tool results must be specified.
+خطا 400: invalid request: message must be at least 1 token long or tool results must be specified.
+خطا 400: invalid request: message must be at least 1 token long or tool results must be specified.
+خطا 400: invalid request: message must be at least 1 token long or tool results must be specified.
+خطا 400: invalid request: message must be at least 1 token long or tool results must be specified.
+خطا 400: invalid request: message must be at least 1 token long or tool results must be specified.
+خطا 400: invalid request: message must be at least 1 token long or tool results must be specified.
+خطا 400: invalid request: message must be at least 1 token long or tool results must be specified.
